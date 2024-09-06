@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "title": "Redbull",
+    "description": "A bebida que te dá asas",
+    "price": 15,
+    "thumbnail": "https://th.bing.com/th/id/OIP.qdKII5z5qlF2I2G5cykT3AHaHa?rs=1&pid=ImgDetMain",
+    "code": "BEB0001",
+    "stock": 95
+  },
+  {
+    "id": 2,
+    "title": "Fandangos",
+    "description": "Aquele salgadinho do espantalho",
+    "price": 8,
+    "thumbnail": "https://th.bing.com/th/id/R.182a4065b0762a1c60d8c588bc4f27fe?rik=F2m9d4Uqvjaeow&pid=ImgRaw&r=0",
+    "code": "COM0001",
+    "stock": 500
+  },
+  {
+    "id": 3,
+    "title": "Coca Cola",
+    "description": "O refrigerante de cola mais famoso do mundo",
+    "price": 10,
+    "thumbnail": "https://th.bing.com/th/id/R.34bf28e57f46ce2d54931827fe71588f?rik=HTckBY64SpjUPA&pid=ImgRaw&r=0",
+    "code": "BEB0002",
+    "stock": 1000
+  }
+]
