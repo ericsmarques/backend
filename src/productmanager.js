@@ -3,21 +3,23 @@ const fs = require('fs');
 class ProductManager {
     constructor(path) {
         this.path = path;
-        this.currentId = 1;
         this.products = [];
-        
         this.loadProducts();
     }
 
     loadProducts() {
         try {
+            console.log(`Carregando produtos do arquivo: ${this.path}`);
             if (fs.existsSync(this.path)) {
                 const data = fs.readFileSync(this.path, 'utf-8');
+                console.log("Dados carregados:", data);
                 this.products = JSON.parse(data);
-
+    
                 if (this.products.length > 0) {
                     this.currentId = this.products[this.products.length - 1].id + 1;
                 }
+            } else {
+                console.log("Arquivo não encontrado.");
             }
         } catch (err) {
             console.error("Erro ao carregar os produtos:", err);
@@ -32,72 +34,45 @@ class ProductManager {
         }
     }
 
-    addProduct({ title, description, price, thumbnail, code, stock }) {
-        if (!title || !description || !price || !thumbnail || !code || !stock) {
-            console.log("Erro: Por gentileza, preencher todos os campos. Eles são obrigatórios.");
-            return;
-        }
-
-        const codeExists = this.products.some(product => product.code === code);
-        if (codeExists) {
-            console.log("Erro: Este produto já existe no estoque.");
-            return;
-        }
-
+    addProduct(product) {
         const newProduct = {
-            id: this.currentId++,
-            title,
-            description,
-            price,
-            thumbnail,
-            code,
-            stock
+            id: this.products.length + 1,
+            status: true,
+            ...product
         };
-
         this.products.push(newProduct);
         this.saveProducts();
-        console.log("Produto adicionado ao estoque:", newProduct);
-    }
-
-    getProducts() {
-        this.loadProducts();
-        return this.products;
+        return newProduct;
     }
 
     getProductById(id) {
-        this.loadProducts();
-        const product = this.products.find(product => product.id === id);
-        if (product) {
-            console.log("Produto encontrado no estoque:", product);
-            return product;
+        return this.products.find(product => product.id === id);
+    }
+
+    updateProduct(id, updatedProduct) {
+        const index = this.products.findIndex(product => product.id === id);
+        if (index !== -1) {
+            this.products[index] = { ...this.products[index], ...updatedProduct };
+            this.saveProducts();
+            return this.products[index];
         } else {
-            console.log("Erro: Este produto não se encontra no estoque.");
             return null;
         }
     }
 
-    updateProduct(id, updatedProduct) {
-        this.loadProducts();
-        const index = this.products.findIndex(product => product.id === id);
-        if (index !== -1) {
-            this.products[index] = { ...this.products[index], ...updatedProduct, id };
-            this.saveProducts();
-            console.log("Produto atualizado com sucesso:", this.products[index]);
-        } else {
-            console.log("Erro: Produto não encontrado para atualização.");
-        }
-    }
-
     deleteProduct(id) {
-        this.loadProducts();
         const index = this.products.findIndex(product => product.id === id);
         if (index !== -1) {
             const deletedProduct = this.products.splice(index, 1);
             this.saveProducts();
-            console.log("Produto removido do estoque:", deletedProduct[0]);
+            return deletedProduct[0];
         } else {
-            console.log("Erro: Produto não encontrado para exclusão.");
+            return null;
         }
+    }
+
+    getProducts(limit) {
+        return limit ? this.products.slice(0, limit) : this.products;
     }
 }
 
