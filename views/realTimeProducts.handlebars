@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estoque</title>
+</head>
+<body>
+    <h1>Estoque em tempo real</h1>
+    <ul id="product-list">
+        {{#each products}}
+            <li>{{this.title}} - {{this.price}} - {{this.stock}} unidades</li>
+        {{/each}}
+    </ul>
+
+    <h2>Adicione um novo Produto</h2>
+    <form id="productForm">
+        <input type="text" id="title" placeholder="Título" required>
+        <input type="number" id="price" placeholder="Preço" required>
+        <input type="text" id="stock" placeholder="Estoque" required>
+        <button type="submit">Adicionar Produto</button>
+    </form>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        // Atualizar lista de produtos em tempo real
+        socket.on('updateProducts', (products) => {
+            const productList = document.getElementById('product-list');
+            productList.innerHTML = '';
+            products.forEach(product => {
+                const li = document.createElement('li');
+                li.textContent = `${product.title} - ${product.price} - ${product.stock} unidades`;
+                productList.appendChild(li);
+            });
+        });
+
+        // Enviar novo produto via WebSocket
+        const form = document.getElementById('productForm');
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const title = document.getElementById('title').value;
+            const price = document.getElementById('price').value;
+            const stock = document.getElementById('stock').value;
+
+            socket.emit('newProduct', { title, price, stock });
+            form.reset();
+        });
+    </script>
+</body>
+</html>

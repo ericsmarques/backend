@@ -25,5 +25,12 @@
     "thumbnail": "https://th.bing.com/th/id/R.34bf28e57f46ce2d54931827fe71588f?rik=HTckBY64SpjUPA&pid=ImgRaw&r=0",
     "code": "BEB0002",
     "stock": 1000
+  },
+  {
+    "id": 4,
+    "status": true,
+    "title": "Guaraná",
+    "price": "10",
+    "stock": "600"
   }
 ]

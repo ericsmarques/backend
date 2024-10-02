@@ -7,10 +7,14 @@
     "star": "node src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["backend"],
+  "keywords": [
+    "backend"
+  ],
   "author": "Eric Marques",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "express-handlebars": "^8.0.1",
+    "socket.io": "^4.8.0"
   }
 }

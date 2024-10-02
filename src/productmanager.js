@@ -1,25 +1,25 @@
 const fs = require('fs');
+const path = require('path');
 
 class ProductManager {
-    constructor(path) {
-        this.path = path;
+    constructor() {
+        this.path = path.join(__dirname, '../src/data/products.json'); // Atualize o caminho
+        this.currentId = 1;
         this.products = [];
         this.loadProducts();
     }
 
     loadProducts() {
         try {
-            console.log(`Carregando produtos do arquivo: ${this.path}`);
             if (fs.existsSync(this.path)) {
                 const data = fs.readFileSync(this.path, 'utf-8');
-                console.log("Dados carregados:", data);
                 this.products = JSON.parse(data);
-    
+
                 if (this.products.length > 0) {
                     this.currentId = this.products[this.products.length - 1].id + 1;
                 }
             } else {
-                console.log("Arquivo não encontrado.");
+                console.log("Arquivo não encontrado."); // Mensagem de erro para depuração
             }
         } catch (err) {
             console.error("Erro ao carregar os produtos:", err);
