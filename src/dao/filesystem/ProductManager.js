@@ -3,7 +3,7 @@ const path = require('path');
 
 class ProductManager {
     constructor() {
-        this.path = path.join(__dirname, '../src/data/products.json');
+        this.path = path.join(__dirname, '../../data/products.json');
         this.currentId = 1;
         this.products = [];
         this.loadProducts();

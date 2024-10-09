@@ -1,9 +1,10 @@
+require('dotenv').config();
 const express = require('express');
 const { engine } = require('express-handlebars');
 const path = require('path');
 const http = require('http');
 const socketIO = require('socket.io');
-const ProductManager = require('./ProductManager');
+const ProductManager = require('../src/dao/filesystem/ProductManager.js'); 
 const MessageManager = require('./dao/mongodb/MessageManager');
 const messageManager = new MessageManager();
 const mongoose = require('mongoose');
@@ -33,12 +34,9 @@ app.set('views', path.join(__dirname, '../views'));
 app.use(express.static(path.join(__dirname, '../public')));
 
 // Conexão com o MongoDB
-mongoose.connect('mongodb+srv://ericssmarques2:HsHGzYHdsCfLP2m0@ecommerce.y5oe9.mongodb.net/', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  })
-    .then(() => console.log('Conectado ao MongoDB'))
-    .catch(err => console.error('Erro ao conectar ao MongoDB', err));
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('Conectado ao MongoDB'))
+  .catch(err => console.error('Erro ao conectar ao MongoDB:', err));
 
 // Rota para a página inicial (Home)
 app.get('/', (req, res) => {
