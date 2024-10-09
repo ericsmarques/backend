@@ -50,6 +50,11 @@ app.get('/realtimeproducts', (req, res) => {
     res.render('realTimeProducts', { products });
 });
 
+// Rota para a página de chat
+app.get('/chat', (req, res) => {
+    res.render('chat');
+});
+
 // Socket.io - Atualização em tempo real
 io.on('connection', (socket) => {
     console.log('Novo cliente conectado!');
